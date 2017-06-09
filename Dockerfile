@@ -6,7 +6,7 @@ ENV BUILD_PACKAGES "make asciidoc python-dev xmlto"
 
 RUN apk add --update git python $BUILD_PACKAGES  &&\
 	git clone https://gitlab.com/esr/irker.git && \
-	pushd irker && \
+	cd irker && \
 	make && make install && \
 	apk del $BUILD_PACKAGES
 
