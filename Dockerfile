@@ -2,9 +2,12 @@ FROM alpine
 
 LABEL maintainer "Joe Eaves <joe.eaves@shadowacre.ltd>"
 
-RUN apk add --update git make asciidoc python python-dev xmlto &&\
-	git clone https://gitlab.com/esr/irker.git
+ENV BUILD_PACKAGES "make asciidoc python-dev xmlto"
 
-RUN cd irker && make && make install
+RUN apk add --update git python "$BUILD_PACKAGES"  &&\
+	git clone https://gitlab.com/esr/irker.git && \
+	pushd irker && \
+	make && make install && \
+	apk del "$BUILD_PACKAGES"
 
 ENTRYPOINT ["/usr/bin/irkerd"]
